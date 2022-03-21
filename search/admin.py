@@ -1,10 +1,14 @@
 from django.contrib import admin
-from .models import importkey ,trial ,n
+from .models import importkey ,trial ,n ,trial_importkey
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 # admin.site.register(importkey)
 @admin.register(importkey)
+class ImportKeyAdmin(ImportExportModelAdmin):
+    # list_display = '_'
+    pass
+@admin.register(trial_importkey)
 class ImportKeyAdmin(ImportExportModelAdmin):
     # list_display = '_'
     pass
