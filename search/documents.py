@@ -18,7 +18,7 @@ class ImportKeyDocument(Document):
     class Django:
         model = importkey
         fields = [
-                        'BOL',
+            'BOL',
             'HOUSE_BILL',
             'SUB_HOUSE_BILL',
             'VOYAGE_NUMBER',
