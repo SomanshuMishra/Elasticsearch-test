@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-u3vep6adc40w&ci_w9r=y(f&20@1*a(8b$=zmj5hmee0$4)wlu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['204.48.27.29',]
 
 
 # Application definition
@@ -54,11 +55,26 @@ REST_FRAMEWORK = {
     # ]
 }
 
+from urllib.parse import quote_plus as urlquote
+
+# elk_base_url = 'elasticsearch://{user_name}:{password}@{host_ip}:{host_port}'
+# elastic_search_url = elk_base_url.format(user_name='elastic',
+#                                          password=urlquote('pErSbgEO2hGXCpIktRzQU2dT'),
+#                                          # password may contain special characters
+#                                          host_ip='https://my-deployment-564036.es.ap-south-1.aws.elastic-cloud.com:9243',
+#                                          host_port=9200)
+
 ELASTICSEARCH_DSL = {
     'default':{
-        'hosts':'localhost:9200'
+        # 'hosts':'localhost:9200'
+        'hosts':'https://elastic:pErSbgEO2hGXCpIktRzQU2dT@my-deployment-564036.es.ap-south-1.aws.elastic-cloud.com:9243'
     }
 }
+# from elasticsearch import Elasticsearch, RequestsHttpConnection
+# ES_CLIENT = Elasticsearch(
+#     ['http://127.0.0.1:9200/'],
+#     connection_class=RequestsHttpConnection
+# )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -97,7 +113,8 @@ WSGI_APPLICATION = 'elastic.wsgi.application'
 DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'importkey-trial',
+    #    'NAME': 'importkey-trial',
+       'NAME': 'importkey_trial',
        'USER': 'postgres',
        'PASSWORD': '123456',
        'HOST': 'localhost',

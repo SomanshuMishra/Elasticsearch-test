@@ -13,10 +13,10 @@ from django.http import JsonResponse
 
 
 class SearchImportKey(APIView,LimitOffsetPagination):
-    importkey_serializer = ImportKeySerializer
+    serializer_class = ImportKeySerializer
     search_document = ImportKeyDocument
     def get(self,request,query):
-        # try:
+        try:
             print('here')
             q = Q(
                 'multi_match',
@@ -25,7 +25,9 @@ class SearchImportKey(APIView,LimitOffsetPagination):
                     'id',
                     'BOL',
                     'HOUSE_BILL',
-                    'BILL_TYPE'
+                    'BILL_TYPE',
+                    'Country_Code',
+                    'Weight_Unit'
                 ]
             )
 
@@ -35,14 +37,19 @@ class SearchImportKey(APIView,LimitOffsetPagination):
             print(response)
             x = {'response':response}
             # s = self.importkey_serializer(response,many=True)
-            return HttpResponse(response)
+            results = self.paginate_queryset(response, request, view=self)
+            print(results)
+            serializer = self.serializer_class(response, many=True)
+            print(serializer.data)
+            return JsonResponse(serializer.data,safe=False)
+            return self.get_paginated_response(serializer.data)
             # return JsonResponse(response,safe=False)
             # results = self.paginate_queryset(response,request,view=self)
             # serializer = self.importkey_serializer(response,many=True)
             # return self.get_paginated_response(serializer.data)
 
 
-        # except Exception as e:
-        #     return HttpResponse(e,status=500)
+        except Exception as e:
+            return HttpResponse(e,status=500)
 
 
