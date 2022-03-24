@@ -64,11 +64,11 @@ class SearchPostImportKey(APIView):
             query=BOL
             field ='BOL'
             all_val[field] = query 
-        if HOUSE_BILL:
+        elif HOUSE_BILL:
             query=HOUSE_BILL
             field = 'HOUSE_BILL'
             all_val[field] = query 
-        if Country_Code:
+        elif Country_Code:
             query=Country_Code
             field = 'Country_Code'
             all_val[field] = query 
@@ -95,7 +95,7 @@ class SearchPostImportKey(APIView):
             #     minimum_should_match=1)
             q1 = Q(
                     'multi_match',
-                    # size = 100,
+                    # size = 100000,
                     query=query,
                     fields = [
                         field
@@ -103,11 +103,16 @@ class SearchPostImportKey(APIView):
                 )
             s = self.search_document.search().query(q1)
             print(s.count())
+            # print(start,end)
             import math
-            search = self.search_document.search().query(q1)[start:end]
+            if BOL:
+              search = self.search_document.search().query(q1)
+            else:
+              search = self.search_document.search().query(q1)[start:end]
+
             response = search.execute()
             serializer = self.serializer_class(response, many=True)
-            return JsonResponse({'total count':math.ceil(s.count()/100),'page':page,'data':serializer.data})
+            return JsonResponse({'Total Rows':s.count(),'total count':math.ceil(s.count()/1000),'page':page,'data':serializer.data})
         else:
             return HttpResponse('No Keyword Sent')
 

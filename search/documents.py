@@ -4,6 +4,7 @@ from django_elasticsearch_dsl.registries import registry
 from search.models import importkey
 
 
+
 @registry.register_document
 class ImportKeyDocument(Document):
     
