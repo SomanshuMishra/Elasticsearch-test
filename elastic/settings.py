@@ -66,7 +66,8 @@ from urllib.parse import quote_plus as urlquote
 
 ELASTICSEARCH_DSL = {
     'default':{
-        # 'hosts':'localhost:9200'
+        # 'hosts':'localhost:9200',
+        # "max_result_window" : 5000000,
         'hosts':'https://elastic:pErSbgEO2hGXCpIktRzQU2dT@my-deployment-564036.es.ap-south-1.aws.elastic-cloud.com:9243'
     }
 }
