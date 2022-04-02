@@ -237,62 +237,62 @@ class SearchPostImportKey(APIView):
                 serializer = self.serializer_class(s2, many=True)
                 return JsonResponse({'total rows':count,'total page':math.ceil(count/skip_count),'Data Per Page':skip_count,'page':page,'data':serializer.data})            
 
-            else:
-                s2 = self.search_document.search().query(q2)[:skip_count]
-                serializer = self.serializer_class(s2, many=True)
-                return JsonResponse({'total rows':count,'total page':math.ceil(count/skip_count),'Data Per Page':skip_count,'page':1,'data':serializer.data})            
+            # else:
+            #     s2 = self.search_document.search().query(q2)[:skip_count]
+            #     serializer = self.serializer_class(s2, many=True)
+            #     return JsonResponse({'total rows':count,'total page':math.ceil(count/skip_count),'Data Per Page':skip_count,'page':1,'data':serializer.data})            
 
 
-            if page:
-              start = page*1000  
-              end = start+1000
-              search = self.search_document.search().query(q1)[start:end]
-            else:
-              search = self.search_document.search().query(q1)[:1000]
+            # if page:
+            #   start = page*1000  
+            #   end = start+1000
+            #   search = self.search_document.search().query(q1)[start:end]
+            # else:
+            #   search = self.search_document.search().query(q1)[:1000]
                                                                                                                                 
-            response = search.execute()
-            serializer = self.serializer_class(response, many=True)
-            # return HttpResponse(response)
-            return JsonResponse({'Total Rows':s.count(),'total count':math.ceil(s.count()/1000),'page':page,'data':serializer.data})
+            # response = search.execute()
+            # serializer = self.serializer_class(response, many=True)
+            # # return HttpResponse(response)
+            # return JsonResponse({'Total Rows':s.count(),'total count':math.ceil(s.count()/1000),'page':page,'data':serializer.data})
         else:
             return HttpResponse('No Keyword Sent')
 
 
-class GetSeller(APIView):
-    serializer_class = ImportKeySerializer
-    search_document = ImportKeyDocument
+# class GetSeller(APIView):
+#     serializer_class = ImportKeySerializer
+#     search_document = ImportKeyDocument
                                                                      
-    def post(self,request):
-          print('HAHAHA')
-          es = Elasticsearch()
-          print('NNN')
-          page = es.search(
-          index = 'importkey',
-        #   doc_type = '_source',
-          scroll = '3m',
-        #   search_type = 'scan',
-          size = 100000,
-          body = {
-            # Your query's body
-            })
-          print('NPO')
-          sid = page['_scroll_id']
-          scroll_size = page['hits']['total']
-          print(scroll_size,'scroll_size')
-        # Start scrolling
-          print(type(scroll_size['value']),'scroll_size_type')
-          x = scroll_size['value']
-          while (x > 0):
-            print ("Scrolling...")
-            page = es.scroll(scroll_id = sid, scroll = '3m')
-            # Update the scroll ID
-            sid = page['_scroll_id']
-            # Get the number of results that we returned in the last scroll
-            scroll_size = len(page['hits']['hits'])
-            print(scroll_size,'scroll_size2')
-            # print ("scroll size: ") + str(scroll_size)
-            # Do something with the obtained page
-          return HttpResponse('hello')
+#     def post(self,request):
+#           print('HAHAHA')
+#           es = Elasticsearch()
+#           print('NNN')
+#           page = es.search(
+#           index = 'importkey',
+#         #   doc_type = '_source',
+#           scroll = '3m',
+#         #   search_type = 'scan',
+#           size = 100000,
+#           body = {
+#             # Your query's body
+#             })
+#           print('NPO')
+#           sid = page['_scroll_id']
+#           scroll_size = page['hits']['total']
+#           print(scroll_size,'scroll_size')
+#         # Start scrolling
+#           print(type(scroll_size['value']),'scroll_size_type')
+#           x = scroll_size['value']
+#           while (x > 0):
+#             print ("Scrolling...")
+#             page = es.scroll(scroll_id = sid, scroll = '3m')
+#             # Update the scroll ID
+#             sid = page['_scroll_id']
+#             # Get the number of results that we returned in the last scroll
+#             scroll_size = len(page['hits']['hits'])
+#             print(scroll_size,'scroll_size2')
+#             # print ("scroll size: ") + str(scroll_size)
+#             # Do something with the obtained page
+#           return HttpResponse('hello')
 
 
 
